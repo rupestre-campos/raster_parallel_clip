@@ -1,0 +1,8 @@
+Parallel raster clip
+
+easy to use yet powerfull tool to clip raster based in shapefile polygons and osgeo GDAL python bindings.
+just updates paths to mosaick, shapefile, and output folder.
+
+You must have/create a unique id field and pass it to script also.
+If you do not have a lot of memory update function clip_raster reducing memory and memory_cache sizes to use less RAM.
+You may need to update noData values in function clip_raster.

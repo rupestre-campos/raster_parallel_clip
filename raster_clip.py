@@ -35,8 +35,7 @@ def clip_raster(mosaick,polygon_shp,pol_id,unique_id,out_folder):
 
     memory = 1.8 #in Gb cant be greater than 2Gb
     mem = memory*10**9
-    wrp_options = gdal.WarpOptions( multithread=True,
-                                    warpMemoryLimit=mem,
+    wrp_options = gdal.WarpOptions( warpMemoryLimit=mem,
                                     srcNodata=-1,
                                     dstNodata=-1,
                                     outputType=gdal.GDT_Int16,
@@ -46,7 +45,6 @@ def clip_raster(mosaick,polygon_shp,pol_id,unique_id,out_folder):
                                     cropToCutline=True,
                                     creationOptions=["BLOCKXSIZE=256",
                                                      "BLOCKYSIZE=256",
-                                                     "NUM_THREADS=ALL_CPUS",
                                                      "tiled=yes",
                                                      "compress=lzw",
                                                      "bigtiff=yes"])
