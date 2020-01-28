@@ -1,4 +1,6 @@
 import os
+import gdal
+from multiprocessing import Pool
 
 raster_data = '/mnt/e/test/elv_mosaic_AM_resample_bilinear.tif'
 
