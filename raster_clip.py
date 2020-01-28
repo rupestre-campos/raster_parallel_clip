@@ -1,12 +1,12 @@
 import os
-import gdal
+import gdal,ogr
 from multiprocessing import Pool
 
-raster_data = '/mnt/e/test/elv_mosaic_AM_resample_bilinear.tif'
+raster_data = r'E:\PROJECAR_AM\01_BASE_RASTER\MOSAICO_MERIT\elv_mosaic_AM_resample_bilinear.tif'
 
-polygon_shp = '/home/teste.shp'
+polygon_shp = r'B:\01_IVAN\03_TEMP\AM\CONTROLE_HIDRO_AM_100m.shp'
 
-out_path = '/mnt/j/AM/MNT_CLIP/'
+out_path = r'J:\PROJECAR_AM\MNT_CLIP'
 
 unique_id = 'COD_BACIA'
 
@@ -43,7 +43,7 @@ def clip_raster(mosaick,polygon_shp,pol_id,unique_id,out_folder):
                                     outputType=gdal.GDT_Int16,
                                     workingType=gdal.GDT_Int16,
                                     cutlineDSName=polygon_shp,
-                                    cutlineWhere="{} = {}".format(unique_id,pol_id),
+                                    cutlineWhere="{} = '{}'".format(unique_id,pol_id),
                                     cropToCutline=True,
                                     creationOptions=["BLOCKXSIZE=256",
                                                      "BLOCKYSIZE=256",
@@ -60,7 +60,7 @@ def parallel_clip(jobs_,mosaick,polygon_shp,unique_id,out_folder,core_count):
     pool = Pool(processes=core_count, maxtasksperchild=10)
     jobs = {}
     for pol_id in jobs_:
-        jobs[pol_id = pool.apply_async(clip_raster,[mosaick,polygon_shp,pol_id,unique_id,out_folder])
+        jobs[pol_id] = pool.apply_async(clip_raster,[mosaick,polygon_shp,pol_id,unique_id,out_folder])
     results = {}
     for pol_id,result in jobs.items():
         try:
@@ -82,7 +82,7 @@ def main():
     '''
     jobs = get_fids(polygon_shp,unique_id)
 
-    parallel_clip(jobs,mosaick,polygon_shp,unique_id,out_path,core_count)
+    parallel_clip(jobs,raster_data,polygon_shp,unique_id,out_path,core_count)
     print('finished!')
 
 if __name__ == "__main__":
